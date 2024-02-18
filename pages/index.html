@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta lang="en">
+	<title>Task Management</title>
+	<link rel="stylesheet" href="../css/home.css">
+	<link rel="icon" type="image/png" href="../images/icon.png"/>
+</head>
+<body class="body">
+
+	<header>
+		
+	</header>
+
+	<div id="addModal" class="addModal">
+		<div class="add-content" id="addTaskForm">
+			<span class="addClose">&times;</span>
+			<form id="taskForm">
+			<label for="title">Title:</label><input disabled maxlength="3" size="3" value="25" id="titleCount"><br>
+			<input size="30" type="text" id="title" name="title" maxlength="25" onkeyup="titleCounter(this,'titleCount',25);"><br><br>
+			<label for="description">Description:</label><input disabled maxlength="3" size="3" value="250" id="counter"><br>
+			<textarea type="description" id="description" name="description" rows="10" cols="50" onkeyup="descCounter(this,'counter',250);"></textarea><br>
+
+			<label for="datePicker">Due Date:</label><br>
+			<input type="date" id="datePicker"><br>
+
+			<label for="status">Status:</label><br>
+			<select id="status" name="status">
+				<option value="">Select Status</option>
+				<option value="To-Do">To-Do</option>
+				<option value="In Progress">In Progress</option>
+				<option value="Completed">Completed</option>
+				<option value="Cancelled">Cancelled</option>
+				<option value="Past Due">Past Due</option>
+			</select><br><br>
+
+			<button type="submit">Submit</button>
+			</form>
+		</div>
+	</div>
+
+	<div id="viewModal" class="viewModal">
+		<div class="view-content" id="viewTaskForm">
+			<span class="viewClose">&times;</span>
+			<form id="taskForm">
+			<label for="viewTitle">Title:</label><br>
+			<input disabled size="30" type="text" id="viewTitle" name="viewTitle" maxlength="25"><br><br>
+			<label for="viewDescription">Description:</label>
+			<textarea disabled type="description" id="viewDescription" name="viewDescription" rows="10" cols="50"></textarea><br>
+
+			<label for="datePicker">Due Date:</label><br>
+			<input disabled type="date" id="viewDatePicker"><br>
+
+			<label for="viewStatus">Status:</label><br>
+			<select disabled id="viewStatus" name="viewStatus">
+				<option value="">Select Status</option>
+				<option value="To-Do">To-Do</option>
+				<option value="In Progress">In Progress</option>
+				<option value="Completed">Completed</option>
+				<option value="Cancelled">Cancelled</option>
+				<option value="Past Due">Past Due</option>
+			</select><br><br>
+			</form>
+		</div>
+	</div>
+
+	<div id="editModal" class="editModal">
+		<div class="edit-content" id="editTaskForm">
+			<span class="editClose">&times;</span>
+			<form id="taskForm">
+			<label for="editTitle">Title:</label><input disabled maxlength="3" size="3" value="25" id="editTitleCount"><br>
+			<input size="30" type="text" id="editTitle" name="editTitle" maxlength="25" onkeyup="editTitleCounter(this,'editTitleCount',25);"><br><br>
+			<label for="editDescription">Description:</label><input disabled maxlength="3" size="3" value="250" id="editCounter"><br>
+			<textarea type="description" id="editDescription" name="editDescription" rows="10" cols="50" onkeyup="editDescCounter(this,'editCounter',250);"></textarea><br>
+
+			<label for="datePicker">Due Date:</label><br>
+			<input type="date" id="editDatePicker"><br>
+
+			<label for="editStatus">Status:</label><br>
+			<select id="editStatus" name="editStatus">
+				<option value="">Select Status</option>
+				<option value="To-Do">To-Do</option>
+				<option value="In Progress">In Progress</option>
+				<option value="Completed">Completed</option>
+				<option value="Cancelled">Cancelled</option>
+				<option value="Past Due">Past Due</option>
+			</select><br><br>
+
+			<button type="submit">Submit</button>
+			</form>
+		</div>
+	</div>
+	
+	<main>
+		<div id="main">
+			<div id="completedTasks">
+				<h2>Completed Tasks for the Week: <span id="completedTasksCount">0</span></h2>
+			</div>
+			<ul id="taskList" class="task-list"></ul><br>
+			<button id="addTaskBtn">Add Task</button>
+			<button id="editTaskBtn">Edit Task</button>
+			<button id="removeTaskBtn">Delete Task</button>
+			<button onclick="signOut()">Log out</button>
+		</div>
+	</main>
+	<script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-auth.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-database.js"></script>
+	<script src="../scripts/home.js"></script>
+
+</body>
+</html>

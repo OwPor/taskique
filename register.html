@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Task Management</title>
+	<link rel="stylesheet" href="css/styles.css">
+	<link rel="icon" type="image/png" href="images/icon.png"/>
+</head>
+<body class="body">
+	<div class="login-container">
+		<div class="formContainer">
+			<h1>Register</h1>
+			<input type="email" placeholder="Email" id="email"><br>
+			<input type="username" placeholder="Username" id="username"><br>
+			<input type="password" placeholder="Password" id="password"><br>
+			<button onclick="register()" id="signIn">Register</button>
+            <p id="register">Already have an account? <a href="index.html">Login here</a></p>
+        </div>
+	</div>
+	<script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-auth.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-database.js"></script>
+	<script src="scripts/register.js"></script>
+	
+</body>
+</html>

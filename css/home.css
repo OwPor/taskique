@@ -1,0 +1,147 @@
+/*
+38302E
+A79593
+FFFFFF
+D0BAB7
+9F6835
+
+71.5px per list
+*/
+
+* {
+    font-style: arial;
+}
+
+header {
+    text-align: center;
+}
+
+.body {
+    background-color: #D0BAB7;
+}
+
+input[type="text"] {
+    font-size: 25px;
+}
+
+input[id="title"], input[id="viewTitle"], input[id="editTitle"]{
+    text-align: center;
+}
+
+textarea {
+    resize: none;
+    font-size: 18px;
+}
+
+#taskForm {
+    text-align: center;
+}
+
+.addModal, .viewModal, .editModal {
+    display: none;
+    position: fixed;
+    z-index:  1;
+    left:  0;
+    top:  0;
+    width:  100%;
+    height:  100%;
+    overflow: auto;
+    background-color: #A79593;
+}
+
+.add-content, .view-content, .edit-content {
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #38302E;
+    width: 50%;
+    background: transparent;
+}
+
+.addClose, .viewClose, .editClose {
+    color: #000;
+    float: right;
+    font-size:   28px;
+    font-weight: bold;
+}
+
+.addClose:hover,
+.addClose:focus, .viewClose:hover,
+.viewClose:focus, .editClose:hover,
+.editClose:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+form {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+@media screen and (max-width: 600px) {
+    form {
+      width: 90%;
+      padding: 0 20px;
+    }
+
+    input[type="text"], textarea {
+      width: 100%;
+    }
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 100vh;
+}
+
+body {
+    width: 600px;
+    margin: 0 auto;
+    padding: 0;
+}
+
+h4 {
+    color: #cd0000;
+    font-size: 42px;
+    letter-spacing: -2px;
+    text-align: left;
+}
+
+ul {
+    background-color: rgb(226, 226, 226);
+}
+
+.task-list {
+    color: #555;
+    font-size: 22px;
+    padding: 0 !important;
+    width: 410px;
+    font-family: courier, monospace;
+    border: 1px solid #ffffff;
+    max-height: 367.5px;
+    overflow-y: auto;
+}
+
+.task-list li {
+    list-style: none;
+    border-bottom: 1px dotted #ccc;
+    text-indent: 25;
+    height: auto;
+    padding: 10px;
+}
+
+.task-list li:hover {
+    background-color: #D0BAB7;
+    -webkit-transition: all 0.2s;
+    -moz-transition: all 0.2s;
+    -ms-transition: all 0.2s;
+    -o-transition: all 0.2s;
+}
+
+.selected {
+    background-color: #fff;
+}

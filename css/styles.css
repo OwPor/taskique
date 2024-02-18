@@ -1,0 +1,85 @@
+/*
+38302E
+A79593
+FFFFFF
+D0BAB7
+9F6835
+*/
+
+* {
+    font-style: arial;
+}
+
+.body, .login-container {
+    background-color: #d0bab7;
+}
+
+.login-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.login-container h1 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+}
+
+.formContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 300px;
+    padding: 2rem;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+
+.formContainer h1 {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.formContainer input {
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid #ccc;
+    outline: none;
+}
+
+.formContainer button {
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    background-color: #9f6835;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.formContainer button:hover {
+    background-color: #38302e;
+}
+
+#register {
+    text-decoration: none !important;
+    margin-top: 1rem;
+    font-size: 15px;
+}
+
+a {
+    color: black;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none;
+    cursor: pointer;
+}
