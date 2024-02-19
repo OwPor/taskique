@@ -15,11 +15,15 @@ const db = firebase.database();
 
 //signOut
 function signOut() {
-    let signOut = confirm("Are you sure you want to log out?);
-    console.log(signOut);
-    if (signOut) {
-        auth.signOut();
-        alert("Logged out successfully from system");
+    try {
+            let signOut = confirm("Are you sure you want to log out?");
+            console.log(signOut);
+            if (signOut) {          
+                auth.signOut();
+                alert("Logged out successfully from system");
+            }
+    } catch(err) {
+        alert("An unexpected error happened. Please try again.");
     }
 }
 
