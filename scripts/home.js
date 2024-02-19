@@ -15,8 +15,12 @@ const db = firebase.database();
 
 //signOut
 function signOut() {
-    auth.signOut();
-    alert("Logged out successfully from system");
+    let signOut = confirm("Are you sure you want to log out?);
+    console.log(signOut);
+    if (signOut) {
+        auth.signOut();
+        alert("Logged out successfully from system");
+    }
 }
 
 var uid;
