@@ -47,6 +47,7 @@ D0BAB7
 }
 
 .formContainer input {
+    font-size: 15px;
     width: 100%;
     border: none;
     outline: none;
@@ -104,4 +105,9 @@ a:hover {
 
 #password {
     flex: 1;
+}
+
+input::-ms-reveal,
+input::-ms-clear {
+    display: none;
 }

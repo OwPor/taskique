@@ -60,11 +60,11 @@ function eyeToggle() {
     if (isHidden) {
         isHidden = false;
         password.setAttribute("type", "text");
-        eye.innerHTML = `Hide`;
+        eye.src = "images/hide.png"
     } else {
         isHidden = true;
         password.setAttribute("type", "password");
-        eye.innerHTML = `Show`;
+        eye.src = "images/show.png"
     }
 };
 
