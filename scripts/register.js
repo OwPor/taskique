@@ -13,7 +13,6 @@ const app = firebase.initializeApp(firebaseConfig);
 const auth =  firebase.auth();
 const db = firebase.database();
 
-//register
 function register() {
     const email = document.getElementById("email").value;
     const username = document.getElementById("username").value;
@@ -33,7 +32,6 @@ function register() {
         .then((userCredential) => {
             dbRef = db.ref();
             var user = userCredential.user;
-            // Save the username in Firestore
             dbRef.child('users/' + user.uid).set({
             username: username
             })
@@ -68,17 +66,17 @@ function validatePassword(password) {
     }
 }
 
-/*
-//Active user to homepage
-firebase.auth().onAuthStateChanged((user) => {
-    if(user){
-      var email = user.email;
-      alert("Successfully logged in "+email+"!");
-      // Redirect to the desired page
-      window.location.href = "pages/home.html";
-    
-    }else{
-      alert("No Active User!")
+var isHidden = true;
+var eye = document.getElementById("eye");
+function eyeToggle() {
+    password = document.getElementById("password");
+    if (isHidden) {
+        isHidden = false;
+        password.setAttribute("type", "text");
+        eye.innerHTML = `Hide`;
+    } else {
+        isHidden = true;
+        password.setAttribute("type", "password");
+        eye.innerHTML = `Show`;
     }
-});
-*/
+};

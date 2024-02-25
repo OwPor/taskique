@@ -13,7 +13,6 @@ const app = firebase.initializeApp(firebaseConfig);
 const auth =  firebase.auth();
 const db = firebase.database();
 
-//signIn
 function signIn() {
 	var email = document.getElementById("email").value;
 	var password  = document.getElementById("password").value;
@@ -30,7 +29,7 @@ function signIn() {
 
     auth.signInWithEmailAndPassword(email,password)
         .then(function() {
-            var user = auth.currentUser;
+            console.log("Logged in successfully.")
         })
         .catch(function(error) {
             alert("Wrong email or password.");
@@ -54,13 +53,22 @@ function validatePassword(password) {
     }
 }
 
-//signOut
-function signOut() {
-	auth.signOut();
-	alert("Logged out successfully from system");
-}
+var isHidden = true;
+var eye = document.getElementById("eye");
+function eyeToggle() {
+    password = document.getElementById("password");
+    if (isHidden) {
+        isHidden = false;
+        password.setAttribute("type", "text");
+        eye.innerHTML = `Hide`;
+    } else {
+        isHidden = true;
+        password.setAttribute("type", "password");
+        eye.innerHTML = `Show`;
+    }
+};
 
-//Active user to homepage
+// Active user to homepage
 firebase.auth().onAuthStateChanged((user) => {
     if(user){
         window.location.href = "pages/index.html";

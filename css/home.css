@@ -9,7 +9,9 @@ D0BAB7
 */
 
 * {
-    font-style: arial;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 header {
@@ -40,11 +42,11 @@ textarea {
 .addModal, .viewModal, .editModal {
     display: none;
     position: fixed;
-    z-index:  1;
-    left:  0;
-    top:  0;
-    width:  100%;
-    height:  100%;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: auto;
     overflow: auto;
     background-color: #A79593;
 }
@@ -60,7 +62,7 @@ textarea {
 .addClose, .viewClose, .editClose {
     color: #000;
     float: right;
-    font-size:   28px;
+    font-size: 28px;
     font-weight: bold;
 }
 
@@ -80,12 +82,31 @@ form {
 
 @media screen and (max-width: 600px) {
     form {
-      width: 90%;
-      padding: 0 20px;
+      width: 85%;
     }
 
     input[type="text"], textarea {
       width: 100%;
+    }
+
+    .add-content, .view-content, .edit-content {
+        margin: 15% auto;
+        padding: 0;
+        border: 1px solid #38302E;
+        width: 100%;
+        background: transparent;
+    }
+    
+    .addModal, .viewModal, .editModal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: #A79593;
     }
 }
 
@@ -99,16 +120,8 @@ main {
 }
 
 body {
-    width: 600px;
     margin: 0 auto;
     padding: 0;
-}
-
-h4 {
-    color: #cd0000;
-    font-size: 42px;
-    letter-spacing: -2px;
-    text-align: left;
 }
 
 ul {
@@ -130,18 +143,36 @@ ul {
     list-style: none;
     border-bottom: 1px dotted #ccc;
     text-indent: 25;
+    font-size: 20px;
     height: auto;
     padding: 10px;
 }
 
 .task-list li:hover {
     background-color: #D0BAB7;
-    -webkit-transition: all 0.2s;
-    -moz-transition: all 0.2s;
-    -ms-transition: all 0.2s;
-    -o-transition: all 0.2s;
 }
 
 .selected {
     background-color: #fff;
+}
+
+button {
+    background-color: #9f6835;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px  0 rgba(0,0,0,0.2);
+    transition: background-color 0.3s ease;
+    width:  120px;
+}
+
+button:hover {
+    background-color: #38302E;
 }

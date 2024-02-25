@@ -13,15 +13,14 @@ const app = firebase.initializeApp(firebaseConfig);
 const auth =  firebase.auth();
 const db = firebase.database();
 
-//signOut
 function signOut() {
     try {
-            let signOut = confirm("Are you sure you want to log out?");
-            console.log(signOut);
-            if (signOut) {          
-                auth.signOut();
-                alert("Logged out successfully from system");
-            }
+        let signOut = confirm("Are you sure you want to log out?");
+        console.log(signOut);
+        if (signOut) {          
+            auth.signOut();
+            alert("Logged out successfully from the system.");
+        }
     } catch(err) {
         alert("An unexpected error happened. Please try again.");
     }
@@ -225,7 +224,7 @@ document.getElementById("removeTaskBtn").onclick = function() {
             alert("An unexpected error happened. Please try again.");
         }
     } else {
-        alert("Please select a task first.")
+        alert("Please select a task first.");
     }
 }
 

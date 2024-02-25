@@ -7,6 +7,8 @@ D0BAB7
 */
 
 * {
+    margin: 0;
+    padding: 0;
     font-style: arial;
 }
 
@@ -45,11 +47,8 @@ D0BAB7
 }
 
 .formContainer input {
-    margin-bottom: 1rem;
-    padding: 0.5rem;
     width: 100%;
     border: none;
-    border-bottom: 2px solid #ccc;
     outline: none;
 }
 
@@ -82,4 +81,27 @@ a {
 a:hover {
     text-decoration: none;
     cursor: pointer;
+}
+
+#eye {
+    font-size: 15px;
+    margin: 0;
+}
+
+.toggle {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 10px;
+    border-bottom: 2px solid #ccc;
+}
+
+.in {
+    width: 100%;
+    padding: 10px;
+    border-bottom: 2px solid #ccc;
+}
+
+#password {
+    flex: 1;
 }

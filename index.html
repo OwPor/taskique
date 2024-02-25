@@ -12,10 +12,15 @@
 	<div class="login-container">
 		<div class="formContainer">
 			<h1>Login</h1>
-			<input type="email" placeholder="Email" id="email"><br>
-            <input type="password" placeholder="Password" id="password"><br>
+			<div class="in">
+				<input type="email" placeholder="Email" id="email"><br>
+			</div>
+			<div class="toggle">
+				<input type="password" placeholder="Password" id="password">
+				<p id="eye" onclick="eyeToggle()">Show</p>
+			</div><br>
 			<button onclick="signIn()" id="signIn">Login</button>
-            <p id="register">Don't have an account yet? <a href="register.html">Register here</a></p>
+            <p id="register">Don't have an account yet? <a href="register.html"><b>Register here</b></a></p>
         </div>
 	</div>
 	<script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-app.js"></script>
