@@ -41,22 +41,30 @@ textarea {
 
 .addModal, .viewModal, .editModal {
     display: none;
+    justify-content: center;
+    align-items: center;
     position: fixed;
     z-index: 1;
     left: 0;
     top: 0;
     width: 100%;
-    height: auto;
-    overflow: auto;
+    height: 100vh;
     background-color: #A79593;
 }
 
 .add-content, .view-content, .edit-content {
     margin: 15% auto;
     padding: 20px;
+    justify-content: center;
+    align-items: center;
     border: 1px solid #38302E;
-    width: 50%;
+    width: 60%;
     background: transparent;
+    height: 60;
+    overflow: auto;
+    overflow-y: auto;
+    max-width:  90%;
+    max-height:  90vh;
 }
 
 .addClose, .viewClose, .editClose {
