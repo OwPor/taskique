@@ -22,12 +22,14 @@ header {
     background-color: #D0BAB7;
 }
 
-input[type="text"] {
+input[id="title"], input[id="viewTitle"], input[id="editTitle"] {
+    text-align: center;
     font-size: 25px;
 }
 
-input[id="title"], input[id="viewTitle"], input[id="editTitle"]{
+input[id="collaborator"], input[id="editCollaborator"] {
     text-align: center;
+    font-size: 12px;
 }
 
 textarea {
@@ -63,8 +65,8 @@ textarea {
     height: 60;
     overflow: auto;
     overflow-y: auto;
-    max-width:  90%;
-    max-height:  90vh;
+    max-width: 90%;
+    max-height: 90vh;
 }
 
 .addClose, .viewClose, .editClose {
@@ -88,7 +90,118 @@ form {
     margin: 0 auto;
 }
 
-@media screen and (max-width: 600px) {
+main {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 100vh;
+}
+
+body {
+    margin: 0 auto;
+    padding: 0;
+}
+
+ul {
+    background-color: rgb(226, 226, 226);
+}
+
+.task-list {
+    color: #555;
+    font-size: 22px;
+    padding: 0 !important;
+    width: 320px;
+    font-family: courier, monospace;
+    border: 1px solid #ffffff;
+    max-height: 367.5px;
+    overflow-y: auto;
+    margin: 0px 10px;
+}
+
+.task-list li {
+    list-style: none;
+    border-bottom: 2px dotted #ccc;
+    text-indent: 25;
+    font-size: 15px;
+    height: auto;
+    padding: 10px;
+}
+
+.task-list li:hover {
+    background-color: #D0BAB7;
+}
+
+.selected {
+    background-color: #fff;
+}
+
+button {
+    background-color: #9f6835;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: background-color 0.3s ease;
+    width: 120px;
+}
+
+button:hover {
+    background-color: #38302E;
+}
+
+.listContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.taskSection h2 {
+    margin: 10px 0px;
+}
+
+.btns {
+    margin: 3% 0px;
+}
+
+@media screen and (max-width:  768px) {
+    .add-content, .view-content, .edit-content {
+        width:  90%;
+    }
+
+    .listContainer {
+        flex-direction: column;
+    }
+
+    input[type="text"], textarea {
+        width:  100%;
+    }
+
+    button {
+        width: auto;
+        margin:  2px auto;
+    }
+}
+
+@media screen and (max-width:  480px) {
+    .task-list li {
+        font-size:  16px;
+    }
+
+    .addClose, .viewClose, .editClose {
+        font-size:  24px;
+    }
+
     form {
       width: 85%;
     }
@@ -116,71 +229,22 @@ form {
         overflow: auto;
         background-color: #A79593;
     }
+
+    .listContainer {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+        text-align: center;
+        height: 100vh;
+    }
+    
+    .btns {
+        margin: 3% 0px;
+    }
 }
 
-main {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    height: 100vh;
-}
-
-body {
-    margin: 0 auto;
-    padding: 0;
-}
-
-ul {
-    background-color: rgb(226, 226, 226);
-}
-
-.task-list {
-    color: #555;
-    font-size: 22px;
-    padding: 0 !important;
-    width: 410px;
-    font-family: courier, monospace;
-    border: 1px solid #ffffff;
-    max-height: 367.5px;
-    overflow-y: auto;
-}
-
-.task-list li {
-    list-style: none;
-    border-bottom: 1px dotted #ccc;
-    text-indent: 25;
-    font-size: 20px;
-    height: auto;
-    padding: 10px;
-}
-
-.task-list li:hover {
-    background-color: #D0BAB7;
-}
-
-.selected {
-    background-color: #fff;
-}
-
-button {
-    background-color: #9f6835;
-    color: #ffffff;
-    border: none;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: pointer;
-    border-radius: 12px;
-    box-shadow: 0 4px 8px  0 rgba(0,0,0,0.2);
-    transition: background-color 0.3s ease;
-    width:  120px;
-}
-
-button:hover {
-    background-color: #38302E;
+.btnsImg {
+    height: 4rem;
+    width: 4rem;
 }

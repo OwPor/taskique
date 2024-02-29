@@ -100,7 +100,7 @@ function getCompletedTasksForWeek() {
             }
         }
 
-        document.getElementById("completedTasksCount").textContent = completedThisWeek;
+        // document.getElementById("completedTasksCount").textContent = completedThisWeek;
     });
 }
 
@@ -113,7 +113,12 @@ var taskID = [];
 var count = 0;
 var currTaskID = 0;
 function displayTasks() {
-    var taskList = document.getElementById("taskList");
+    var todo = document.getElementById("toDo");
+    var inprogress = document.getElementById("inProgress");
+    var completed = document.getElementById("completed");
+    var cancelled = document.getElementById("cancelled");
+    var pastdue = document.getElementById("pastDue");
+    
     var tapTimer;
     const dbRef = firebase.database().ref("tasks/" + uid);
     dbRef.on('value', (snapshot) => {
@@ -134,11 +139,23 @@ function displayTasks() {
         taskItem.setAttribute("data-task-id", snapshot.key);
 
         taskItem.addEventListener("click", function() {
-            var selectedItems = taskList.getElementsByClassName("selected");
-            while (selectedItems[0]) {
-                selectedItems[0].classList.remove("selected");
-            }
+            var taskLists = [
+                document.getElementById("toDo"),
+                document.getElementById("inProgress"),
+                document.getElementById("completed"),
+                document.getElementById("cancelled"),
+                document.getElementById("pastDue")
+            ];
+        
+            taskLists.forEach(function(taskList) {
+                var selectedItems = taskList.getElementsByClassName("selected");
+                while (selectedItems[0]) {
+                    selectedItems[0].classList.remove("selected");
+                }
+            });
+        
             this.classList.add("selected");
+        
             taskTitle = task.title;
             taskDescription = task.description;
             taskDate = task.date;
@@ -149,6 +166,7 @@ function displayTasks() {
         taskItem.addEventListener("dblclick", function() {
             onTaskDoubleClick(task.title, task.description, task.date, task.status);
         });
+
         function handleDoubleTap(event) {
             if (tapTimer) {
                 clearTimeout(tapTimer);
@@ -162,8 +180,26 @@ function displayTasks() {
             }
         }
         taskItem.addEventListener("touchend", handleDoubleTap);
-
-        taskList.appendChild(taskItem);
+        
+        switch (task.status) {
+            case "To-Do":
+                todo.appendChild(taskItem);
+                break;
+            case "In Progress":
+                inprogress.appendChild(taskItem);
+                break;
+            case "Completed":
+                completed.appendChild(taskItem);
+                break;
+            case "Cancelled":
+                cancelled.appendChild(taskItem);
+                break;
+            case "Past Due":
+                pastdue.appendChild(taskItem);
+                break;
+            default:
+                console.log("Unknown task status: " + task.status);
+        }
     });
 }
 
