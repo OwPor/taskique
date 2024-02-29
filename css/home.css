@@ -179,6 +179,10 @@ button:hover {
         width:  90%;
     }
 
+    .taskSection h2 {
+        margin: 10px 0px;
+    }
+
     .listContainer {
         flex-direction: column;
     }
@@ -190,6 +194,11 @@ button:hover {
     button {
         width: auto;
         margin:  2px auto;
+    }
+
+    .btnsImg {
+        height: 3rem;
+        width: 3rem;
     }
 }
 
@@ -241,6 +250,15 @@ button:hover {
     
     .btns {
         margin: 3% 0px;
+    }
+
+    .taskSection h2 {
+        margin: 10px 0px;
+    }
+
+    .btnsImg {
+        height: 3rem;
+        width: 3rem;
     }
 }
 
