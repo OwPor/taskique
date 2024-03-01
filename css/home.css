@@ -116,11 +116,12 @@ ul {
     font-family: courier, monospace;
     border: 1px solid #ffffff;
     max-height: 367.5px;
+    height: 367.5px;
     overflow-y: auto;
     margin: 0px 10px;
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    justify-content: flex-start;
 }
 
 .task-list li {
