@@ -281,4 +281,8 @@ button:hover {
         height: 3rem;
         width: 3rem;
     }
+
+    main {
+        height: 100%;
+    }
 }
