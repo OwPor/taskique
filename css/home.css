@@ -283,6 +283,6 @@ button:hover {
     }
 
     main {
-        height: 0;
+        height: 100%;
     }
 }
