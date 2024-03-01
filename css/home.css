@@ -269,8 +269,7 @@ button:hover {
     .btns {
         margin: 3% 0px;
         display: flex;
-        position: sticky;
-        justify-content: center;
+        justify-content: space-around;
     }
 
     .taskSection h2 {
@@ -283,6 +282,6 @@ button:hover {
     }
 
     main {
-        margin: auto;
+        height: 100%;
     }
 }
