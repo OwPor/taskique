@@ -27,9 +27,9 @@ input[id="title"], input[id="viewTitle"], input[id="editTitle"] {
     font-size: 25px;
 }
 
-input[id="collaborator"], input[id="editCollaborator"] {
+input[id="collaborator"], input[id="editCollaborator"], input[id="viewCollaborator"] {
     text-align: center;
-    font-size: 12px;
+    font-size: 20px;
 }
 
 textarea {
@@ -55,7 +55,7 @@ textarea {
 }
 
 .add-content, .view-content, .edit-content {
-    margin: 15% auto;
+    margin: 7% auto;
     padding: 20px;
     justify-content: center;
     align-items: center;

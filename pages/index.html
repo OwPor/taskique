@@ -18,28 +18,28 @@
 		<div class="add-content" id="addTaskForm">
 			<span class="addClose">&times;</span>
 			<form id="taskForm">
-			<label for="title">*Title:</label><input disabled maxlength="3" size="3" value="25" id="titleCount"><br>
-			<input size="30" type="text" id="title" name="title" maxlength="25" onkeyup="titleCounter(this,'titleCount',25);"><br><br>
-			<label for="description">*Description:</label><input disabled maxlength="3" size="3" value="250" id="counter"><br>
-			<textarea type="description" id="description" name="description" rows="10" cols="50" onkeyup="descCounter(this,'counter',250);"></textarea><br>
+				<label for="title">*Title:</label><input disabled maxlength="3" size="3" value="25" id="titleCount"><br>
+				<input size="30" type="text" id="title" name="title" maxlength="25" oninput="titleCounter(this,'titleCount',25);"><br><br>
+				<label for="description">*Description:</label><input disabled maxlength="3" size="3" value="250" id="counter"><br>
+				<textarea type="description" id="description" name="description" rows="10" cols="50" oninput="descCounter(this,'counter',250);"></textarea><br>
 
-			<label for="datePicker">*Due Date:</label><br>
-			<input type="date" id="datePicker"><br>
+				<label for="datePicker">*Due Date:</label><br>
+				<input type="date" id="datePicker"><br>
 
-			<label for="status">*Status:</label><br>
-			<select id="status" name="status">
-				<option value="">*Select Status</option>
-				<option value="To-Do">To-Do</option>
-				<option value="In Progress">In Progress</option>
-				<option value="Completed">Completed</option>
-				<option value="Cancelled">Cancelled</option>
-				<option value="Past Due">Past Due</option>
-			</select><br><br>
+				<label for="status">*Status:</label><br>
+				<select id="status" name="status">
+					<option value="">*Select Status</option>
+					<option value="To-Do">To-Do</option>
+					<option value="In Progress">In Progress</option>
+					<option value="Completed">Completed</option>
+					<option value="Cancelled">Cancelled</option>
+					<option value="Past Due">Past Due</option>
+				</select><br><br>
 
-			<label for="collab">Collaborator (Separated by commas):</label><br>
-			<input type="text" name="collab" id="collaborator" placeholder="Collaborator IDs"><br><br>
+				<label for="collab">Collaborator (Separated by commas):</label><br>
+				<textarea type="text" name="collab" id="collaborator" placeholder="Collaborator IDs" rows="3" cols="50"></textarea><br>
 
-			<button type="submit">Submit</button>
+				<button type="submit">Submit</button>
 			</form>
 		</div>
 	</div>
@@ -48,23 +48,27 @@
 		<div class="view-content" id="viewTaskForm">
 			<span class="viewClose">&times;</span>
 			<form id="taskForm">
-			<label for="viewTitle">Title:</label><br>
-			<input disabled size="30" type="text" id="viewTitle" name="viewTitle" maxlength="25"><br><br>
-			<label for="viewDescription">Description:</label><br>
-			<textarea disabled type="description" id="viewDescription" name="viewDescription" rows="10" cols="50"></textarea><br>
+				<label for="viewTitle">Title:</label><br>
+				<input disabled size="30" type="text" id="viewTitle" name="viewTitle" maxlength="25"><br><br>
+				<label for="viewDescription">Description:</label><br>
+				<textarea disabled type="description" id="viewDescription" name="viewDescription" rows="10" cols="50"></textarea><br>
 
-			<label for="datePicker">Due Date:</label><br>
-			<input disabled type="date" id="viewDatePicker"><br>
+				<label for="datePicker">Due Date:</label><br>
+				<input disabled type="date" id="viewDatePicker"><br>
 
-			<label for="viewStatus">Status:</label><br>
-			<select disabled id="viewStatus" name="viewStatus">
-				<option value="">Select Status</option>
-				<option value="To-Do">To-Do</option>
-				<option value="In Progress">In Progress</option>
-				<option value="Completed">Completed</option>
-				<option value="Cancelled">Cancelled</option>
-				<option value="Past Due">Past Due</option>
-			</select><br><br>
+				<label for="viewStatus">Status:</label><br>
+				<select disabled id="viewStatus" name="viewStatus">
+					<option value="">Select Status</option>
+					<option value="To-Do">To-Do</option>
+					<option value="In Progress">In Progress</option>
+					<option value="Completed">Completed</option>
+					<option value="Cancelled">Cancelled</option>
+					<option value="Past Due">Past Due</option>
+				</select><br><br>
+
+				<label for="collab">Collaborator (Separated by commas):</label><br>
+				<textarea disabled type="text" name="collab" id="viewCollaborator" placeholder="Collaborator IDs" rows="3" cols="50"></textarea><br>
+
 			</form>
 		</div>
 	</div>
@@ -73,35 +77,35 @@
 		<div class="edit-content" id="editTaskForm">
 			<span class="editClose">&times;</span>
 			<form id="taskForm">
-			<label for="editTitle">*Title:</label><input disabled maxlength="3" size="3" value="25" id="editTitleCount"><br>
-			<input size="30" type="text" id="editTitle" name="editTitle" maxlength="25" onkeyup="editTitleCounter(this,'editTitleCount',25);"><br><br>
-			<label for="editDescription">*Description:</label><input disabled maxlength="3" size="3" value="250" id="editCounter"><br>
-			<textarea type="description" id="editDescription" name="editDescription" rows="10" cols="50" onkeyup="editDescCounter(this,'editCounter',250);"></textarea><br>
+				<label for="editTitle">*Title:</label><input disabled maxlength="3" size="3" value="25" id="editTitleCount"><br>
+				<input size="30" type="text" id="editTitle" name="editTitle" maxlength="25" oninput="editTitleCounter(this,'editTitleCount',25);"><br><br>
+				<label for="editDescription">*Description:</label><input disabled maxlength="3" size="3" value="250" id="editDescriptionCounter"><br>
+				<textarea type="description" id="editDescription" name="editDescription" rows="10" cols="50" oninput="editDescCounter(this,'editDescriptionCounter',250);"></textarea><br>
 
-			<label for="datePicker">*Due Date:</label><br>
-			<input type="date" id="editDatePicker"><br>
+				<label for="datePicker">*Due Date:</label><br>
+				<input type="date" id="editDatePicker"><br>
 
-			<label for="editStatus">*Status:</label><br>
-			<select id="editStatus" name="editStatus">
-				<option value="">*Select Status</option>
-				<option value="To-Do">To-Do</option>
-				<option value="In Progress">In Progress</option>
-				<option value="Completed">Completed</option>
-				<option value="Cancelled">Cancelled</option>
-				<option value="Past Due">Past Due</option>
-			</select><br><br>
+				<label for="editStatus">*Status:</label><br>
+				<select id="editStatus" name="editStatus">
+					<option value="">*Select Status</option>
+					<option value="To-Do">To-Do</option>
+					<option value="In Progress">In Progress</option>
+					<option value="Completed">Completed</option>
+					<option value="Cancelled">Cancelled</option>
+					<option value="Past Due">Past Due</option>
+				</select><br><br>
 
-			<label for="collab">Collaborator (Separated by commas):</label><br>
-			<input type="text" name="collab" id="editCollaborator" placeholder="Collaborator IDs"><br><br>
-
-			<button type="submit">Submit</button>
+				<label for="collab">Collaborator (Separated by commas):</label><br>
+				<textarea type="text" name="collab" id="editCollaborator" placeholder="Collaborator IDs" rows="3" cols="50"></textarea><br>
+				
+				<button type="submit">Submit</button>
 			</form>
 		</div>
 	</div>
 	
 	<main>
 		<div id="main">
-
+			<p>Current UID: <span id="showUID" onclick="copyUID(this)"></span></p>
 			<div class="listContainer">
 				<div class="taskSection">
 					<h2>To-Do</h2>
@@ -128,7 +132,7 @@
 			<div class="btns">
 				<a id="addTaskBtn"><img class="btnsImg" src="../images/add.png" alt="Add Task" /></a>
 				<a id="editTaskBtn"><img class="btnsImg" src="../images/edit.png" alt="Edit Task" /></a>
-				<a id="removeTaskBtn"><img class="btnsImg" src="../images/delete.png" alt="Delete Task" /></a>
+				<a id="deleteTaskBtn"><img class="btnsImg" src="../images/delete.png" alt="Delete Task" /></a>
 				<a onclick="signOut()"><img class="btnsImg" src="../images/logout.png" alt="Log out" /></a>
 			</div>
 		</div>

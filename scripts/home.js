@@ -30,12 +30,19 @@ var uid;
 firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
         uid = user.uid;
+        var show = document.getElementById("showUID");
+        show.textContent = uid;
         displayTasks();
         getCompletedTasksForWeek();
     } else (
         window.location.href = "../index.html"
     )
 });
+
+function copyUID(e) {
+    navigator.clipboard.writeText(e.textContent);
+    alert("UID Copied Successfully!")
+}
 
 function validateForm(field) {
     if (field < 1) {
@@ -45,37 +52,45 @@ function validateForm(field) {
         return true;
 }
 
-function addTask(title, description, date, status) {
-    db.ref("tasks/" + uid).push({
+function addTask(title, description, date, status, collab) {
+    var collaboratorsArray = collab.split(/[\s,]+/);
+
+    db.ref("tasks/all").push({
         id: db.ref("tasks/" + uid).push().key,
+        owner: uid,
         description: description,
         title: title,
         date: date,
-        status: status
+        status: status,
+        collaborators: collaboratorsArray
     });
     alert("Task added");
     document.getElementById("title").value = "";
     document.getElementById("description").value = "";
+    document.getElementById("collaborator").value = "";
     closeModal(addModal);
     location.reload();
 }
 
-function editTask(taskID, title, description, date, status) {
-    db.ref("tasks/" + uid + "/" + taskID).update({ 
-        description: description, 
+function editTask(taskID, title, description, date, status, collab) {
+    var collaboratorsArray = collab.split(/[\s,]+/);
+    db.ref("tasks/all/" + taskID).update({
+        description: description,
         title: title,
         date: date,
-        status: status
+        status: status,
+        collaborators: collaboratorsArray
     });
     alert("Task edited");
     document.getElementById("editTitle").value = "";
     document.getElementById("editDescription").value = "";
-    closeModal(editModal);
+    document.getElementById("editCollaborator").value = "";
+    closeModal(addModal);
     location.reload();
 }
 
-function removeTask(taskID) {
-    db.ref("tasks/" + uid + "/" + taskID).remove();
+function deleteTask(taskID) {
+    db.ref("tasks/all/" + taskID).remove();
     alert("Task deleted");
     closeModal(editModal);
     location.reload();
@@ -108,6 +123,7 @@ var taskTitle;
 var taskDescription;
 var taskDate;
 var taskStatus;
+var taskCollaborators;
 
 var taskID = [];
 var count = 0;
@@ -120,7 +136,7 @@ function displayTasks() {
     var pastdue = document.getElementById("pastDue");
     
     var tapTimer;
-    const dbRef = firebase.database().ref("tasks/" + uid);
+    const dbRef = firebase.database().ref("tasks/all");
     dbRef.on('value', (snapshot) => {
         snapshot.forEach((childSnapshot) => {
           const childKey = childSnapshot.key;
@@ -128,15 +144,18 @@ function displayTasks() {
           count++;
         });
     }, { onlyOnce: true });
-    db.ref("tasks/" + uid).on("child_added", function(snapshot) {
+    
+    db.ref("tasks/all").on("child_added", function(snapshot) {
         var task = snapshot.val();
-        var taskItem = document.createElement("li");
-        taskItem.className = "task-item";
-        taskItem.innerHTML = `
-            <div class="task-title">${task.title}</div>
-            <div class="task-date">${task.date}    ${task.status}</div>
-        `;
-        taskItem.setAttribute("data-task-id", snapshot.key);
+        
+        if (task.collaborators.includes(uid) || task.owner == uid) {
+            var taskItem = document.createElement("li");
+            taskItem.className = "task-item";
+            taskItem.innerHTML = `
+                <div class="task-title">${task.title}</div>
+                <div class="task-date">${task.date} ${task.status}</div>
+            `;
+            taskItem.setAttribute("data-task-id", snapshot.key);
 
         taskItem.addEventListener("click", function() {
             var taskLists = [
@@ -160,18 +179,19 @@ function displayTasks() {
             taskDescription = task.description;
             taskDate = task.date;
             taskStatus = task.status;
+            taskCollaborators = task.collaborators;
             currTaskID = this.getAttribute("data-task-id");
         });
 
         taskItem.addEventListener("dblclick", function() {
-            onTaskDoubleClick(task.title, task.description, task.date, task.status);
+            onTaskDoubleClick(task.title, task.description, task.date, task.status, task.collaborators);
         });
 
         function handleDoubleTap(event) {
             if (tapTimer) {
                 clearTimeout(tapTimer);
                 tapTimer = null;
-                onTaskDoubleClick(task.title, task.description);
+                onTaskDoubleClick(task.title, task.description, task.date, task.status, task.collaborators);
             } else {
                 tapTimer = setTimeout(function() {
                     tapTimer = null;
@@ -199,7 +219,7 @@ function displayTasks() {
                 break;
             default:
                 console.log("Unknown task status: " + task.status);
-        }
+        }}
     });
 }
 
@@ -209,13 +229,14 @@ document.getElementById("addTaskForm").addEventListener("submit", function(e) {
     var description = document.getElementById("description").value;
     var date = document.getElementById("datePicker").value;
     var status = document.getElementById("status").value;
+    var collab = document.getElementById("collaborator").value;
 
     if (validateForm(title)) {
         if (validateForm(description)) {
             if (validateForm(date)) {
                 if (validateForm(status)) {
                     try {
-                        addTask(title, description, date, status);
+                        addTask(title, description, date, status, collab);
                     } catch(err) {
                         alert("An unexpected error happened. Please try again.");
                     }
@@ -232,13 +253,14 @@ document.getElementById("editTaskForm").addEventListener("submit", function(e) {
     var description = document.getElementById("editDescription").value;
     var date = document.getElementById("editDatePicker").value;
     var status = document.getElementById("editStatus").value;
+    var collab = document.getElementById("editCollaborator").value;
     
     if (validateForm(title)) {
         if (validateForm(description)) {
             if (validateForm(date)) {
                 if (validateForm(status)) {
                     try {
-                        editTask(currTaskID, title, description, date, status);
+                        editTask(currTaskID, title, description, date, status, collab);
                     } catch(err) {
                         alert("An unexpected error happened. Please try again.");
                     }
@@ -249,13 +271,13 @@ document.getElementById("editTaskForm").addEventListener("submit", function(e) {
     }
 });
 
-document.getElementById("removeTaskBtn").onclick = function() {
+document.getElementById("deleteTaskBtn").onclick = function() {
     if (currTaskID != 0) {
         try {
             let isExecuted = confirm("Do you want to delete this task?");
             console.log(isExecuted)
             if (isExecuted)          
-                removeTask(currTaskID);
+                deleteTask(currTaskID);
         } catch(err) {
             alert("An unexpected error happened. Please try again.");
         }
@@ -295,12 +317,11 @@ function editTitleCounter(field, field2, maxlimit) {
 }
 
 function editDescCounter(field, field2, maxlimit) {
-    var countfield = document.getElementById(field2);
     if ( field.value.length > maxlimit ) {
         field.value = field.value.substring( 0, maxlimit );
         return false;
     } else {
-        countfield.value = maxlimit - field.value.length;
+        field2.value = maxlimit - field.value.length;
     }
 }
 
@@ -318,25 +339,33 @@ document.getElementById("addTaskBtn").onclick = function() {
 
 document.getElementById("editTaskBtn").onclick = function() {
     var editModal = document.getElementById("editModal");
+    var eTitle = document.getElementById("editTitle");
+    var eDescription = document.getElementById("editDescription");
+
     document.getElementById("editTitle").value = taskTitle;
     document.getElementById("editDescription").value = taskDescription;
     document.getElementById("editDatePicker").value = taskDate;
     document.getElementById("editStatus").value = taskStatus;
+    document.getElementById("editCollaborator").value = taskCollaborators;
 
     if (taskTitle == undefined) {
         alert("Please select a task first.");
         return;
     }
+
+    editTitleCounter(eTitle, 'editTitleCount', 25);
+    editDescCounter(eDescription, 'editDescriptionCount', 250);
     
     openModal(editModal);
 }
 
-function onTaskDoubleClick(title, description, date, status) {
+function onTaskDoubleClick(title, description, date, status, collab) {
     var viewModal = document.getElementById("viewModal");
     document.getElementById("viewTitle").value = title;
     document.getElementById("viewDescription").value = description;
     document.getElementById("viewDatePicker").value = date;
     document.getElementById("viewStatus").value = status;
+    document.getElementById("viewCollaborator").value = collab;
 
     openModal(viewModal);
 }
