@@ -33,19 +33,20 @@ function register() {
             dbRef = db.ref();
             var user = userCredential.user;
             dbRef.child('users/' + user.uid).set({
-            username: username
+                username: username,
+                isAdmin: false
             })
             .then(() => {
-            console.log("Successfully registered!");
-            auth.signOut();
-            window.location.href = "index.html"
+                console.log("Successfully registered!");
+                auth.signOut();
+                window.location.href = "index.html"
             })
             .catch((error) => {
-            console.error("Error writing document: ", error);
+                console.error("Error writing document: ", error);
             });
         })
         .catch((error) => {
-            console.error("Error registering user: ", error);
+                console.error("Error registering user: ", error);
         });
 }
 
