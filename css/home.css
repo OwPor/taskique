@@ -184,45 +184,12 @@ button:hover {
     width: 4rem;
 }
 
-
-
-@media screen and (max-width: 768px) {
-    .add-content, .view-content, .edit-content {
-        width: 90%;
-    }
-
-    .taskSection h2 {
-        margin: 10px 0px;
-    }
-
-    .listContainer {
-        flex-direction: column;
-    }
-
-    input[type="text"], textarea {
-        width: 100%;
-    }
-
-    button {
-        width: auto;
-        margin: 2px auto;
-        
-    }
-
-    .btns {
-        margin: 3% 0px;
-        display: flex;
-        position: sticky;
-        justify-content: center;
-    }
-
-    .btnsImg {
-        height: 3rem;
-        width: 3rem;
-    }
+#uid {
+    margin-top: auto;
 }
 
-@media screen and (width < 500px) {
+
+@media screen and (width < 900px) {
     .task-list li {
         font-size: 16px;
     }
