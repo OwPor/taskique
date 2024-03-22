@@ -27,13 +27,25 @@ function signOut() {
 }
 
 var uid;
+var currentUser;
 firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
         uid = user.uid;
-        var show = document.getElementById("showUID");
-        show.textContent = uid;
+        var showUID = document.getElementById("showUID");
+        showUID.textContent = uid;
+        const username = firebase.database().ref("users/" + uid);
+        username.on('value', function(snapshot) {
+            currentUser = snapshot.val().username;
+            console.log(currentUser);
+            var showUsername = document.getElementById("showUsername");
+            showUsername.textContent = currentUser;
+        });
+        
+
         displayTasks();
         //getCompletedTasksForWeek();
+
+        
     } else (
         window.location.href = "../index.html"
     )
@@ -57,7 +69,8 @@ function addTask(title, description, date, status, collab) {
 
     db.ref("tasks/all").push({
         id: db.ref("tasks/" + uid).push().key,
-        owner: uid,
+        ownerName: currentUser,
+        ownerId: uid,
         description: description,
         title: title,
         date: date,
@@ -157,7 +170,7 @@ function displayTasks() {
     db.ref("tasks/all").on("child_added", function(snapshot) {
         var task = snapshot.val();
         setTimeout(() => {
-            if (task.collaborators.includes(uid) || task.owner == uid || isUserAdmin) {
+            if (task.collaborators.includes(uid) || task.ownerId == uid || isUserAdmin) {
                 var taskItem = document.createElement("li");
                 taskItem.className = "task-item";
                 taskItem.innerHTML = `
@@ -233,6 +246,37 @@ function displayTasks() {
     });
 }
 
+function getTaskOwnerId(taskID) {
+    return new Promise((resolve, reject) => {
+        const taskRef = db.ref("tasks/all/" + taskID);
+        taskRef.once('value', function(snapshot) {
+            const taskData = snapshot.val();
+            if (taskData && taskData.ownerId) {
+                resolve(taskData.ownerId);
+            } else {
+                reject(new Error("Task not found or ownerId is missing."));
+            }
+        }, function(error) {
+            reject(error);
+        });
+    });
+}
+
+function getTaskOwnerName(taskID) {
+    return new Promise((resolve, reject) => {
+        const taskRef = db.ref("tasks/all/" + taskID);
+        taskRef.once('value', function(snapshot) {
+            const taskData = snapshot.val();
+            if (taskData && taskData.ownerName) {
+                resolve(taskData.ownerName);
+            } else {
+                reject(new Error("Task not found or ownerName is missing."));
+            }
+        }, function(error) {
+            reject(error);
+        });
+    });
+}
 
 document.getElementById("addTaskForm").addEventListener("submit", function(e) {
     e.preventDefault();
@@ -283,18 +327,27 @@ document.getElementById("editTaskForm").addEventListener("submit", function(e) {
 });
 
 document.getElementById("deleteTaskBtn").onclick = function() {
-    if (currTaskID != 0) {
-        try {
-            let isExecuted = confirm("Do you want to delete this task?");
-            console.log(isExecuted)
-            if (isExecuted)          
-                deleteTask(currTaskID);
-        } catch(err) {
-            alert("An unexpected error happened. Please try again.");
+    getTaskOwnerId(currTaskID).then(ownerId => {
+        if (uid === ownerId || isUserAdmin) {
+            if (currTaskID != 0) {
+                try {
+                    let isExecuted = confirm("Do you want to delete this task?");
+                    console.log(isExecuted)
+                    if (isExecuted)          
+                        deleteTask(currTaskID);
+                } catch(err) {
+                    alert("An unexpected error happened. Please try again.");
+                }
+            } else {
+                alert("Please select a task first.");
+            }
+        } else {
+            alert("Only the task's owner has the ability to delete this.");
+            return false;
         }
-    } else {
-        alert("Please select a task first.");
-    }
+    }).catch(error => {
+        console.error("Error fetching task ownerId:", error);
+    });
 }
 
 function titleCounter(field, field2, maxlimit) {
@@ -364,6 +417,16 @@ document.getElementById("editTaskBtn").onclick = function() {
         return;
     }
 
+    getTaskOwnerId(currTaskID).then(ownerId => {
+        if (ownerId === uid || isUserAdmin) {
+            document.getElementById("editCollaborator").disabled = false;
+        } else {
+            document.getElementById("editCollaborator").disabled = true;
+        }
+    }).catch(error => {
+        console.error("Error fetching task ownerId:", error);
+    });
+
     editTitleCounter(eTitle, 'editTitleCount', 25);
     editDescCounter(eDescription, 'editDescriptionCount', 250);
     
@@ -377,6 +440,12 @@ function onTaskDoubleClick(title, description, date, status, collab) {
     document.getElementById("viewDatePicker").value = date;
     document.getElementById("viewStatus").value = status;
     document.getElementById("viewCollaborator").value = collab;
+
+    getTaskOwnerName(currTaskID).then(ownerName => {
+        document.getElementById("viewOwner").textContent = ownerName;
+    }).catch(error => {
+        console.error("Error fetching task ownerId:", error);
+    });
 
     openModal(viewModal);
 }

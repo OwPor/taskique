@@ -44,6 +44,7 @@
 		<div class="view-content" id="viewTaskForm">
 			<span class="viewClose">&times;</span>
 			<form id="taskForm">
+				<label>Owner: <span id="viewOwner"></span></label><br>
 				<label for="viewTitle">Title:</label><br>
 				<input disabled size="30" type="text" id="viewTitle" name="viewTitle" maxlength="25"><br><br>
 				<label for="viewDescription">Description:</label><br>
@@ -103,6 +104,7 @@
 		<div id="main">
 			<div id="uid">
 				<p>Current UID: <b><span id="showUID" onclick="copyUID(this)"></span></b></p>
+				<p>Current User: <b><span id="showUsername"></span></b></p>
 			</div>
 				<div class="listContainer">
 				<div class="taskSection">
