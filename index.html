@@ -1,32 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta lang="en">
-	<title>Task Management</title>
-	<link rel="stylesheet" href="css/styles.css">
-	<link rel="icon" type="image/png" href="images/icon.png"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Management Web System</title>
+    <link rel="stylesheet" href="css/landing.css">
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body class="body">
-	<div class="login-container">
-		<div class="formContainer">
-			<h1>Login</h1>
-			<div class="in">
-				<input type="email" placeholder="Email" id="email"><br>
-			</div>
-			<div class="toggle">
-				<input type="password" placeholder="Password" id="password">
-				<img src="images/show.png" id="eye" onclick="eyeToggle()" />
-			</div><br>
-			<button type="button" onclick="signIn()" id="signIn">Login</button>
-            <p id="register">Don't have an account yet? <a href="register.html"><b>Register here</b></a></p>
+    <header>
+        <h1>Welcome to Task Management Web System</h1>
+    </header>
+    <main>
+        <div class="formContainer">
+            <h2>Manage Your Tasks Effortlessly</h2>
+            <p>
+                Take control of your tasks with this intuitive system. Organize, prioritize, and complete 
+                your tasks with ease. Plus, enjoy collaboration features to work together on projects. 
+                This system is designed to make your life easier, so you can focus on what's important.
+            </p>
+            <button onclick="location.href='pages/login.html';">Get Started</button>
         </div>
-	</div>
-	<script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-app.js"></script>
-	<script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-database.js"></script>
-	<script src="scripts/login.js"></script>
-	
+    </main>
 </body>
 </html>

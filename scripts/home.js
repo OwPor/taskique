@@ -47,7 +47,7 @@ firebase.auth().onAuthStateChanged(function(user) {
 
         
     } else (
-        window.location.href = "../index.html"
+        window.location.href = "login.html"
     )
 });
 
@@ -164,7 +164,6 @@ function displayTasks() {
     const users = firebase.database().ref("users/" + uid);
     users.on('value', function(snapshot) {
         isUserAdmin = snapshot.val().isAdmin;
-        console.log(isUserAdmin);
     });
     
     db.ref("tasks/all").on("child_added", function(snapshot) {
@@ -179,69 +178,79 @@ function displayTasks() {
                 `;
                 taskItem.setAttribute("data-task-id", snapshot.key);
 
-            taskItem.addEventListener("click", function() {
-                var taskLists = [
-                    document.getElementById("toDo"),
-                    document.getElementById("inProgress"),
-                    document.getElementById("completed"),
-                    document.getElementById("cancelled"),
-                    document.getElementById("pastDue")
-                ];
+                taskItem.addEventListener("click", function() {
+                    var taskLists = [
+                        document.getElementById("toDo"),
+                        document.getElementById("inProgress"),
+                        document.getElementById("completed"),
+                        document.getElementById("cancelled"),
+                        document.getElementById("pastDue")
+                    ];
             
-                taskLists.forEach(function(taskList) {
-                    var selectedItems = taskList.getElementsByClassName("selected");
-                    while (selectedItems[0]) {
-                        selectedItems[0].classList.remove("selected");
-                    }
+                    taskLists.forEach(function(taskList) {
+                        var selectedItems = taskList.getElementsByClassName("selected");
+                        while (selectedItems[0]) {
+                            selectedItems[0].classList.remove("selected");
+                        }
+                    });
+                
+                    this.classList.add("selected");
+                
+                    taskTitle = task.title;
+                    taskDescription = task.description;
+                    taskDate = task.date;
+                    taskStatus = task.status;
+                    taskCollaborators = task.collaborators;
+                    currTaskID = this.getAttribute("data-task-id");
                 });
-            
-                this.classList.add("selected");
-            
-                taskTitle = task.title;
-                taskDescription = task.description;
-                taskDate = task.date;
-                taskStatus = task.status;
-                taskCollaborators = task.collaborators;
-                currTaskID = this.getAttribute("data-task-id");
-            });
 
-            taskItem.addEventListener("dblclick", function() {
-                onTaskDoubleClick(task.title, task.description, task.date, task.status, task.collaborators);
-            });
-
-            function handleDoubleTap(event) {
-                if (tapTimer) {
-                    clearTimeout(tapTimer);
-                    tapTimer = null;
+                taskItem.addEventListener("dblclick", function() {
                     onTaskDoubleClick(task.title, task.description, task.date, task.status, task.collaborators);
-                } else {
-                    tapTimer = setTimeout(function() {
+                });
+
+                function handleDoubleTap(event) {
+                    if (tapTimer) {
+                        clearTimeout(tapTimer);
                         tapTimer = null;
-                    },  300);
-                    target = event.target;
+                        onTaskDoubleClick(task.title, task.description, task.date, task.status, task.collaborators);
+                    } else {
+                        tapTimer = setTimeout(function() {
+                            tapTimer = null;
+                        },  300);
+                        target = event.target;
+                    }
+                }
+                taskItem.addEventListener("touchend", handleDoubleTap);
+                
+                switch (task.status) {
+                    case "To-Do":
+                        todo.appendChild(taskItem);
+                        break;
+                    case "In Progress":
+                        inprogress.appendChild(taskItem);
+                        break;
+                    case "Completed":
+                        completed.appendChild(taskItem);
+                        break;
+                    case "Cancelled":
+                        cancelled.appendChild(taskItem);
+                        break;
+                    case "Past Due":
+                        pastdue.appendChild(taskItem);
+                        break;
+                    default:
+                        console.log("Unknown task status: " + task.status);
+                }
+
+                var taskDate = new Date(task.date);
+                var currentDate = new Date();
+                if (taskDate < currentDate && task.status !== "Past Due" && task.status !== "Completed" &&
+                    (task.collaborators.includes(uid) || task.ownerId == uid || isUserAdmin)) {
+                    db.ref("tasks/all/" + snapshot.key).update({
+                        status: "Past Due"
+                    });
                 }
             }
-            taskItem.addEventListener("touchend", handleDoubleTap);
-            
-            switch (task.status) {
-                case "To-Do":
-                    todo.appendChild(taskItem);
-                    break;
-                case "In Progress":
-                    inprogress.appendChild(taskItem);
-                    break;
-                case "Completed":
-                    completed.appendChild(taskItem);
-                    break;
-                case "Cancelled":
-                    cancelled.appendChild(taskItem);
-                    break;
-                case "Past Due":
-                    pastdue.appendChild(taskItem);
-                    break;
-                default:
-                    console.log("Unknown task status: " + task.status);
-            }}
         }, 1000);
     });
 }
@@ -482,3 +491,42 @@ function openModal(modal) {
 function closeModal(modal) {
     modal.style.display = "none";
 }
+
+// Drag and drop
+let offsetX = 0;
+let offsetY = 0;
+
+function handleDragStart(e) {
+    draggedElement = e.target;
+    
+    offsetX = e.clientX - draggedElement.getBoundingClientRect().left;
+    offsetY = e.clientY - draggedElement.getBoundingClientRect().top;
+    
+    draggedElement.style.opacity = '0.5';
+}
+
+function handleDragOver(e) {
+    e.preventDefault();
+}
+
+function handleDrop(e) {
+    e.preventDefault();
+    
+    draggedElement.style.opacity = '1';
+    
+    document.body.appendChild(draggedElement);
+    
+    draggedElement.style.position = 'absolute';
+    draggedElement.style.top = `${e.clientY - offsetY}px`;
+    draggedElement.style.left = `${e.clientX - offsetX}px`;
+}
+
+document.querySelectorAll('.taskSection').forEach(taskSection => {
+    taskSection.setAttribute('draggable', 'true');
+    taskSection.addEventListener('dragstart', handleDragStart);
+    taskSection.addEventListener('dragover', handleDragOver);
+    taskSection.addEventListener('drop', handleDrop);
+});
+
+document.addEventListener('dragover', handleDragOver);
+document.addEventListener('drop', handleDrop);

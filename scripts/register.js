@@ -39,7 +39,7 @@ function register() {
             .then(() => {
                 console.log("Successfully registered!");
                 auth.signOut();
-                window.location.href = "index.html"
+                window.location.href = "login.html"
             })
             .catch((error) => {
                 console.error("Error writing document: ", error);
@@ -74,10 +74,10 @@ function eyeToggle() {
     if (isHidden) {
         isHidden = false;
         password.setAttribute("type", "text");
-        eye.src = "images/hide.png"
+        eye.src = "../images/hide.png"
     } else {
         isHidden = true;
         password.setAttribute("type", "password");
-        eye.src = "images/show.png"
+        eye.src = "../images/show.png"
     }
 };

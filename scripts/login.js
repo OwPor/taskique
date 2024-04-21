@@ -60,17 +60,17 @@ function eyeToggle() {
     if (isHidden) {
         isHidden = false;
         password.setAttribute("type", "text");
-        eye.src = "images/hide.png"
+        eye.src = "../images/hide.png"
     } else {
         isHidden = true;
         password.setAttribute("type", "password");
-        eye.src = "images/show.png"
+        eye.src = "../images/show.png"
     }
 };
 
 // Active user to homepage
 firebase.auth().onAuthStateChanged((user) => {
     if(user){
-        window.location.href = "pages/index.html";
+        window.location.href = "index.html";
     }
 });
