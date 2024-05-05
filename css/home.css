@@ -5,6 +5,15 @@ FFFFFF
 D0BAB7
 9F6835
 
+
+NEW!!!!!
+#F5F5DC
+#C4C48C
+#D0BAB7
+#9F6835
+#38302E
+#FFFFFF
+
 71.5px per list
 */
 
@@ -19,7 +28,7 @@ header {
 }
 
 .body {
-    background-color: #D0BAB7;
+    background-color: beige;
 }
 
 input[id="title"], input[id="viewTitle"], input[id="editTitle"] {
@@ -51,21 +60,23 @@ textarea {
     top: 0;
     width: 100%;
     height: 100vh;
-    background-color: #A79593;
+    background-color: rgb(196, 196, 140);
 }
 
 .add-content, .view-content, .edit-content {
-    margin: 7% auto;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
     padding: 20px;
-    justify-content: center;
-    align-items: center;
     border: 1px solid #38302E;
     width: 60%;
     background: transparent;
     height: 60;
+    scrollbar-width: 0px;
     overflow: auto;
     overflow-y: auto;
-    max-width: 90%;
+    max-width: 40%;
     max-height: 90vh;
 }
 
@@ -122,11 +133,13 @@ ul {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    box-shadow: 0 0 5px black;
+    border-radius: 25px;
 }
 
 .task-list li {
     list-style: none;
-    border-bottom: 2px dotted #ccc;
+    border-bottom: 2px dashed #ccc;
     text-indent: 25;
     font-size: 15px;
     height: auto;
@@ -176,7 +189,12 @@ button:hover {
 }
 
 .btns {
+    padding-left: 20%;
+    padding-right: 20%;
     margin: 3% 0px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 .btnsImg {
@@ -188,6 +206,33 @@ button:hover {
     margin-top: auto;
 }
 
+.task-list.toDo {
+    background-color: #FFD700;
+}
+
+.task-list.inProgress {
+    background-color: #4CAF50;
+}
+
+.task-list.completed {
+    background-color: #2196F3;
+}
+
+.task-list.cancelled {
+    background-color: #F44336;
+}
+
+.task-list.pastDue {
+    background-color: #FFA500;
+}
+
+.task-item[draggable="true"] {
+    cursor: move; /* Indicates that the item is movable */
+}
+
+.task-list {
+    min-height: 50px; /* Ensures there's space to drop into an empty list */
+}
 
 @media screen and (width < 900px) {
     .task-list li {
@@ -212,6 +257,19 @@ button:hover {
         border: 1px solid #38302E;
         width: 100%;
         background: transparent;
+
+        margin: 7% auto;
+        padding: 20px;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid #38302E;
+        width: 60%;
+        background: transparent;
+        height: 60;
+        overflow: auto;
+        overflow-y: auto;
+        max-width: 100%;
+        max-height: 100vh;
     }
     
     .addModal, .viewModal, .editModal {
@@ -223,7 +281,6 @@ button:hover {
         width: 100%;
         height: 100%;
         overflow: auto;
-        background-color: #A79593;
     }
 
     .listContainer {
@@ -235,6 +292,8 @@ button:hover {
     }
     
     .btns {
+        padding-left: 0;
+        padding-right: 0;
         margin: 3% 0px;
         display: flex;
         justify-content: space-around;

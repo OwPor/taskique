@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta lang="en">
-	<title>Task Management</title>
+	<title>Taskique</title>
 	<link rel="stylesheet" href="../css/home.css">
 	<link rel="icon" type="image/png" href="../images/icon.png"/>
 </head>
@@ -107,27 +107,27 @@
 				<p>Current User: <b><span id="showUsername"></span></b></p>
 			</div>
 				<div class="listContainer">
-				<div class="taskSection">
-					<h2>To-Do</h2>
-					<ul id="toDo" class="task-list"></ul>
+					<div class="taskSection" id="ltodo" >
+						<h2>To-Do</h2>
+						<ul id="toDo" class="task-list toDo"></ul>
+					</div>
+					<div class="taskSection" id="linprogress" >
+						<h2>In Progress</h2>
+						<ul id="inProgress" class="task-list inProgress"></ul>
+					</div>
+					<div class="taskSection" id="lcompleted" >
+						<h2>Completed</h2>
+						<ul id="completed" class="task-list completed"></ul>
+					</div>
+					<div class="taskSection" id="lcancelled" >
+						<h2>Cancelled</h2>
+						<ul id="cancelled" class="task-list cancelled"></ul>
+					</div>
+					<div class="taskSection" id="lpastdue" >
+						<h2>Past Due</h2>
+						<ul id="pastDue" class="task-list pastDue"></ul>
+					</div>
 				</div>
-				<div class="taskSection">
-					<h2>In Progress</h2>
-					<ul id="inProgress" class="task-list"></ul>
-				</div>
-				<div class="taskSection">
-					<h2>Completed</h2>
-					<ul id="completed" class="task-list"></ul>
-				</div>
-				<div class="taskSection">
-					<h2>Cancelled</h2>
-					<ul id="cancelled" class="task-list"></ul>
-				</div>
-				<div class="taskSection">
-					<h2>Past Due</h2>
-					<ul id="pastDue" class="task-list"></ul>
-				</div>
-			</div>
 			
 			<div class="btns">
 				<a id="addTaskBtn"><img class="btnsImg" src="../images/add.png" alt="Add Task" /></a>

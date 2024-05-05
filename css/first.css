@@ -1,0 +1,96 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #F5F5DC;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    text-align: center;
+}
+
+.logo-container {
+    background-color: #C4C48C;
+    border-radius: 10px;
+    padding: 25px;
+}
+
+.taskique-logo {
+    background-color: #D0BAB7;
+    border: none;
+    color: #9F6835;
+    font-size: 80px;
+    resize: none;
+    width: 370px;
+    height: 110px;
+    text-align: center;
+    outline: none;
+}
+
+.navbar {
+    background-color: #38302E;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 10;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.navbar-content {
+    max-width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px 0;
+}
+
+.navbar-links {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.navbar-links li {
+    padding: 0 10px;
+}
+
+.btn {
+    padding: 10px 20px;
+    background-color: #9F6835;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #C4C48C;
+    transform: scale(1.05);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2)
+}
+
+
+#login-btn {
+    margin-right: 10px;
+}
+
+
+@media screen and (width < 900px) {
+    .taskique-logo {
+        font-size: 50px;
+        width: 250px;
+        height: 70px;
+    }
+}

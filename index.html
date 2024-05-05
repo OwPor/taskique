@@ -1,32 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta lang="en">
-	<title>Task Management</title>
-	<link rel="stylesheet" href="css/styles.css">
-	<link rel="icon" type="image/png" href="images/icon.png"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taskique</title>
+    <link rel="stylesheet" href="css/first.css">
 </head>
-<body class="body">
-	<div class="login-container">
-		<div class="formContainer">
-			<h1>Login</h1>
-			<div class="in">
-				<input type="email" placeholder="Email" id="email"><br>
-			</div>
-			<div class="toggle">
-				<input type="password" placeholder="Password" id="password">
-				<img src="images/show.png" id="eye" onclick="eyeToggle()" />
-			</div><br>
-			<button type="button" onclick="signIn()" id="signIn">Login</button>
-            <p id="register">Don't have an account yet? <a href="register.html"><b>Register here</b></a></p>
+<body>
+    <div class="navbar">
+        <div class="navbar-content">
+            <ul class="navbar-links">
+                <li><button class="btn" id="login-btn">Login</button></li>
+                <li><button class="btn" id="register-btn">Register</button></li>
+            </ul>
         </div>
-	</div>
-	<script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-app.js"></script>
-	<script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-database.js"></script>
-	<script src="scripts/login.js"></script>
-	
+    </div>    
+    
+    <div class="container">
+        <div class="logo-container">
+            <textarea class="taskique-logo" readonly>Taskique</textarea>
+        </div>
+    </div>
 </body>
 </html>

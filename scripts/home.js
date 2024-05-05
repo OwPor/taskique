@@ -47,7 +47,7 @@ firebase.auth().onAuthStateChanged(function(user) {
 
         
     } else (
-        window.location.href = "../index.html"
+        window.location.href = "login.html"
     )
 });
 
@@ -151,6 +151,12 @@ function displayTasks() {
     var cancelled = document.getElementById("cancelled");
     var pastdue = document.getElementById("pastDue");
     
+    todo.innerHTML = '';
+    inprogress.innerHTML = '';
+    completed.innerHTML = '';
+    cancelled.innerHTML = '';
+    pastdue.innerHTML = '';
+
     var tapTimer;
     const dbRef = firebase.database().ref("tasks/all");
     dbRef.on('value', (snapshot) => {
@@ -164,84 +170,95 @@ function displayTasks() {
     const users = firebase.database().ref("users/" + uid);
     users.on('value', function(snapshot) {
         isUserAdmin = snapshot.val().isAdmin;
-        console.log(isUserAdmin);
     });
     
     db.ref("tasks/all").on("child_added", function(snapshot) {
         var task = snapshot.val();
         setTimeout(() => {
-            if (task.collaborators.includes(uid) || task.ownerId == uid || isUserAdmin) {
+            if (Array.isArray(task.collaborators) && task.collaborators.includes(uid) || task.ownerId == uid || isUserAdmin) {
                 var taskItem = document.createElement("li");
                 taskItem.className = "task-item";
                 taskItem.innerHTML = `
                     <div class="task-title">${task.title}</div>
                     <div class="task-date">${task.date} ${task.status}</div>
                 `;
+                taskItem.setAttribute("draggable", "true");
+                taskItem.setAttribute("class", "lists");
                 taskItem.setAttribute("data-task-id", snapshot.key);
 
-            taskItem.addEventListener("click", function() {
-                var taskLists = [
-                    document.getElementById("toDo"),
-                    document.getElementById("inProgress"),
-                    document.getElementById("completed"),
-                    document.getElementById("cancelled"),
-                    document.getElementById("pastDue")
-                ];
+                taskItem.addEventListener("click", function() {
+                    var taskLists = [
+                        document.getElementById("toDo"),
+                        document.getElementById("inProgress"),
+                        document.getElementById("completed"),
+                        document.getElementById("cancelled"),
+                        document.getElementById("pastDue")
+                    ];
             
-                taskLists.forEach(function(taskList) {
-                    var selectedItems = taskList.getElementsByClassName("selected");
-                    while (selectedItems[0]) {
-                        selectedItems[0].classList.remove("selected");
-                    }
+                    taskLists.forEach(function(taskList) {
+                        var selectedItems = taskList.getElementsByClassName("selected");
+                        while (selectedItems[0]) {
+                            selectedItems[0].classList.remove("selected");
+                        }
+                    });
+                
+                    this.classList.add("selected");
+                
+                    taskTitle = task.title;
+                    taskDescription = task.description;
+                    taskDate = task.date;
+                    taskStatus = task.status;
+                    taskCollaborators = task.collaborators;
+                    currTaskID = this.getAttribute("data-task-id");
                 });
-            
-                this.classList.add("selected");
-            
-                taskTitle = task.title;
-                taskDescription = task.description;
-                taskDate = task.date;
-                taskStatus = task.status;
-                taskCollaborators = task.collaborators;
-                currTaskID = this.getAttribute("data-task-id");
-            });
 
-            taskItem.addEventListener("dblclick", function() {
-                onTaskDoubleClick(task.title, task.description, task.date, task.status, task.collaborators);
-            });
-
-            function handleDoubleTap(event) {
-                if (tapTimer) {
-                    clearTimeout(tapTimer);
-                    tapTimer = null;
+                taskItem.addEventListener("dblclick", function() {
                     onTaskDoubleClick(task.title, task.description, task.date, task.status, task.collaborators);
-                } else {
-                    tapTimer = setTimeout(function() {
+                });
+
+                function handleDoubleTap(event) {
+                    if (tapTimer) {
+                        clearTimeout(tapTimer);
                         tapTimer = null;
-                    },  300);
-                    target = event.target;
+                        onTaskDoubleClick(task.title, task.description, task.date, task.status, task.collaborators);
+                    } else {
+                        tapTimer = setTimeout(function() {
+                            tapTimer = null;
+                        },  300);
+                        target = event.target;
+                    }
+                }
+                taskItem.addEventListener("touchend", handleDoubleTap);
+                
+                switch (task.status) {
+                    case "To-Do":
+                        todo.appendChild(taskItem);
+                        break;
+                    case "In Progress":
+                        inprogress.appendChild(taskItem);
+                        break;
+                    case "Completed":
+                        completed.appendChild(taskItem);
+                        break;
+                    case "Cancelled":
+                        cancelled.appendChild(taskItem);
+                        break;
+                    case "Past Due":
+                        pastdue.appendChild(taskItem);
+                        break;
+                    default:
+                        console.log();
+                }
+
+                var taskDate = new Date(task.date);
+                var currentDate = new Date();
+                if (taskDate < currentDate && task.status !== "Past Due" && task.status !== "Completed" &&
+                    (task.collaborators.includes(uid) || task.ownerId == uid || isUserAdmin)) {
+                    db.ref("tasks/all/" + snapshot.key).update({
+                        status: "Past Due"
+                    });
                 }
             }
-            taskItem.addEventListener("touchend", handleDoubleTap);
-            
-            switch (task.status) {
-                case "To-Do":
-                    todo.appendChild(taskItem);
-                    break;
-                case "In Progress":
-                    inprogress.appendChild(taskItem);
-                    break;
-                case "Completed":
-                    completed.appendChild(taskItem);
-                    break;
-                case "Cancelled":
-                    cancelled.appendChild(taskItem);
-                    break;
-                case "Past Due":
-                    pastdue.appendChild(taskItem);
-                    break;
-                default:
-                    console.log("Unknown task status: " + task.status);
-            }}
         }, 1000);
     });
 }
@@ -332,7 +349,6 @@ document.getElementById("deleteTaskBtn").onclick = function() {
             if (currTaskID != 0) {
                 try {
                     let isExecuted = confirm("Do you want to delete this task?");
-                    console.log(isExecuted)
                     if (isExecuted)          
                         deleteTask(currTaskID);
                 } catch(err) {
@@ -481,4 +497,131 @@ function openModal(modal) {
 
 function closeModal(modal) {
     modal.style.display = "none";
+}
+
+// Drag and drop
+var listsClass = document.getElementsByClassName("lists");
+var todoContainer = document.getElementById("ltodo");
+var inProgressContainer = document.getElementById("linprogress");
+var completedContainer = document.getElementById("lcompleted");
+var cancelledContainer = document.getElementById("lcancelled");
+var pastDueContainer = document.getElementById("lpastdue");
+selected = null;
+
+todoContainer.addEventListener("dragover", function(e) {
+    e.preventDefault();
+});
+todoContainer.addEventListener("drop", function(e) {
+    var selected = document.getElementsByClassName("selected");
+    if (selected[0]) {
+        const taskId = selected[0].getAttribute("data-task-id");
+        if (taskId) {
+            updateTaskStatus(taskId, "To-Do");
+            displayTasks();
+        } else {
+            console.error("Task ID not found on the selected element.");
+        }
+    } else {
+        console.error("No task selected.");
+    }
+    selected = null;
+});
+
+inProgressContainer.addEventListener("dragover", function(e) {
+    e.preventDefault();
+});
+inProgressContainer.addEventListener("drop", function(e) {
+    var selected = document.getElementsByClassName("selected");
+    if (selected[0]) {
+        const taskId = selected[0].getAttribute("data-task-id");
+        if (taskId) {
+            updateTaskStatus(taskId, "In Progress");
+            displayTasks();
+        } else {
+            console.error("Task ID not found on the selected element.");
+        }
+    } else {
+        console.error("No task selected.");
+    }
+    selected = null;
+});
+
+completedContainer.addEventListener("dragover", function(e) {
+    e.preventDefault();
+});
+completedContainer.addEventListener("drop", function(e) {
+    var selected = document.getElementsByClassName("selected");
+    if (selected[0]) {
+        const taskId = selected[0].getAttribute("data-task-id");
+        if (taskId) {
+            updateTaskStatus(taskId, "Completed");
+            displayTasks();
+        } else {
+            console.error("Task ID not found on the selected element.");
+        }
+    } else {
+        console.error("No task selected.");
+    }
+    selected = null;
+});
+
+cancelledContainer.addEventListener("dragover", function(e) {
+    e.preventDefault();
+});
+cancelledContainer.addEventListener("drop", function(e) {
+    var selected = document.getElementsByClassName("selected");
+    if (selected[0]) {
+        const taskId = selected[0].getAttribute("data-task-id");
+        if (taskId) {
+            updateTaskStatus(taskId, "Cancelled");
+            displayTasks();
+        } else {
+            console.error("Task ID not found on the selected element.");
+        }
+    } else {
+        console.error("No task selected.");
+    }
+    selected = null;
+});
+
+pastDueContainer.addEventListener("dragover", function(e) {
+    e.preventDefault();
+});
+pastDueContainer.addEventListener("drop", function(e) {
+    var selected = document.getElementsByClassName("selected");
+    if (selected[0]) {
+        const taskId = selected[0].getAttribute("data-task-id");
+        if (taskId) {
+            updateTaskStatus(taskId, "Past Due");
+            displayTasks();
+        } else {
+            console.error("Task ID not found on the selected element.");
+        }
+    } else {
+        console.error("No task selected.");
+    }
+    selected = null;
+});
+
+for (var list of listsClass) {
+    list.addEventListener("dragstart", function(e) {
+        selected = e.target;
+    });
+}
+
+function updateTaskStatus(taskId, newStatus) {
+    if (!newStatus) {
+        console.error("Invalid status");
+        return;
+    }
+
+    console.log("Updating task:", taskId, "to status:", newStatus);
+
+    db.ref("tasks/all/" + taskId).update({
+        status: newStatus
+    }).then(() => {
+        console.log("Task status updated successfully");
+    }).catch((error) => {
+        console.error("Error updating task status:", error);
+    });
 }
