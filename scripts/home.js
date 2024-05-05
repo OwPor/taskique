@@ -48,6 +48,7 @@ firebase.auth().onAuthStateChanged(function(user) {
         
     } else (
         window.location.href = "login.html"
+        window.location.href = "login.html"
     )
 });
 
@@ -194,6 +195,14 @@ function displayTasks() {
                         document.getElementById("cancelled"),
                         document.getElementById("pastDue")
                     ];
+                taskItem.addEventListener("click", function() {
+                    var taskLists = [
+                        document.getElementById("toDo"),
+                        document.getElementById("inProgress"),
+                        document.getElementById("completed"),
+                        document.getElementById("cancelled"),
+                        document.getElementById("pastDue")
+                    ];
             
                     taskLists.forEach(function(taskList) {
                         var selectedItems = taskList.getElementsByClassName("selected");
@@ -211,7 +220,26 @@ function displayTasks() {
                     taskCollaborators = task.collaborators;
                     currTaskID = this.getAttribute("data-task-id");
                 });
+                    taskLists.forEach(function(taskList) {
+                        var selectedItems = taskList.getElementsByClassName("selected");
+                        while (selectedItems[0]) {
+                            selectedItems[0].classList.remove("selected");
+                        }
+                    });
+                
+                    this.classList.add("selected");
+                
+                    taskTitle = task.title;
+                    taskDescription = task.description;
+                    taskDate = task.date;
+                    taskStatus = task.status;
+                    taskCollaborators = task.collaborators;
+                    currTaskID = this.getAttribute("data-task-id");
+                });
 
+                taskItem.addEventListener("dblclick", function() {
+                    onTaskDoubleClick(task.title, task.description, task.date, task.status, task.collaborators);
+                });
                 taskItem.addEventListener("dblclick", function() {
                     onTaskDoubleClick(task.title, task.description, task.date, task.status, task.collaborators);
                 });
@@ -497,6 +525,133 @@ function openModal(modal) {
 
 function closeModal(modal) {
     modal.style.display = "none";
+}
+
+// Drag and drop
+var listsClass = document.getElementsByClassName("lists");
+var todoContainer = document.getElementById("ltodo");
+var inProgressContainer = document.getElementById("linprogress");
+var completedContainer = document.getElementById("lcompleted");
+var cancelledContainer = document.getElementById("lcancelled");
+var pastDueContainer = document.getElementById("lpastdue");
+selected = null;
+
+todoContainer.addEventListener("dragover", function(e) {
+    e.preventDefault();
+});
+todoContainer.addEventListener("drop", function(e) {
+    var selected = document.getElementsByClassName("selected");
+    if (selected[0]) {
+        const taskId = selected[0].getAttribute("data-task-id");
+        if (taskId) {
+            updateTaskStatus(taskId, "To-Do");
+            displayTasks();
+        } else {
+            console.error("Task ID not found on the selected element.");
+        }
+    } else {
+        console.error("No task selected.");
+    }
+    selected = null;
+});
+
+inProgressContainer.addEventListener("dragover", function(e) {
+    e.preventDefault();
+});
+inProgressContainer.addEventListener("drop", function(e) {
+    var selected = document.getElementsByClassName("selected");
+    if (selected[0]) {
+        const taskId = selected[0].getAttribute("data-task-id");
+        if (taskId) {
+            updateTaskStatus(taskId, "In Progress");
+            displayTasks();
+        } else {
+            console.error("Task ID not found on the selected element.");
+        }
+    } else {
+        console.error("No task selected.");
+    }
+    selected = null;
+});
+
+completedContainer.addEventListener("dragover", function(e) {
+    e.preventDefault();
+});
+completedContainer.addEventListener("drop", function(e) {
+    var selected = document.getElementsByClassName("selected");
+    if (selected[0]) {
+        const taskId = selected[0].getAttribute("data-task-id");
+        if (taskId) {
+            updateTaskStatus(taskId, "Completed");
+            displayTasks();
+        } else {
+            console.error("Task ID not found on the selected element.");
+        }
+    } else {
+        console.error("No task selected.");
+    }
+    selected = null;
+});
+
+cancelledContainer.addEventListener("dragover", function(e) {
+    e.preventDefault();
+});
+cancelledContainer.addEventListener("drop", function(e) {
+    var selected = document.getElementsByClassName("selected");
+    if (selected[0]) {
+        const taskId = selected[0].getAttribute("data-task-id");
+        if (taskId) {
+            updateTaskStatus(taskId, "Cancelled");
+            displayTasks();
+        } else {
+            console.error("Task ID not found on the selected element.");
+        }
+    } else {
+        console.error("No task selected.");
+    }
+    selected = null;
+});
+
+pastDueContainer.addEventListener("dragover", function(e) {
+    e.preventDefault();
+});
+pastDueContainer.addEventListener("drop", function(e) {
+    var selected = document.getElementsByClassName("selected");
+    if (selected[0]) {
+        const taskId = selected[0].getAttribute("data-task-id");
+        if (taskId) {
+            updateTaskStatus(taskId, "Past Due");
+            displayTasks();
+        } else {
+            console.error("Task ID not found on the selected element.");
+        }
+    } else {
+        console.error("No task selected.");
+    }
+    selected = null;
+});
+
+for (var list of listsClass) {
+    list.addEventListener("dragstart", function(e) {
+        selected = e.target;
+    });
+}
+
+function updateTaskStatus(taskId, newStatus) {
+    if (!newStatus) {
+        console.error("Invalid status");
+        return;
+    }
+
+    console.log("Updating task:", taskId, "to status:", newStatus);
+
+    db.ref("tasks/all/" + taskId).update({
+        status: newStatus
+    }).then(() => {
+        console.log("Task status updated successfully");
+    }).catch((error) => {
+        console.error("Error updating task status:", error);
+    });
 }
 
 // Drag and drop
