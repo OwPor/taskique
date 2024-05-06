@@ -35,8 +35,11 @@ body {
     resize: none;
     width: 370px;
     height: 110px;
-    text-align: center;
     outline: none;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .navbar {
@@ -87,6 +90,10 @@ body {
         font-size: 50px;
         width: 250px;
         height: 70px;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 }
 
