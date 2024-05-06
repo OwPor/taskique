@@ -16,6 +16,9 @@ body {
 
 .container {
     text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .logo-container {
@@ -43,8 +46,6 @@ body {
     top: 0;
     width: 100%;
     z-index: 10;
-    display: flex;
-    justify-content: flex-end;
 }
 
 .navbar-content {
@@ -81,16 +82,17 @@ body {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2)
 }
 
-
-#login-btn {
-    margin-right: 10px;
-}
-
-
 @media screen and (width < 900px) {
     .taskique-logo {
         font-size: 50px;
         width: 250px;
         height: 70px;
+    }
+}
+
+@media screen and (width < 350px) {
+    .navbar-content {
+        display: flex;
+        justify-content: space-evenly;
     }
 }
